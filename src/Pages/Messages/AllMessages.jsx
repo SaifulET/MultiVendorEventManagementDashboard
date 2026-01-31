@@ -186,11 +186,11 @@ const AllMessages = () => {
   return (
     <div className="min-h-screen mx-auto">
       <div
-        style={{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.24)" }}
-        className="w-full mx-auto mt-20 rounded-md flex h-[900px] "
+        
+        className="border border-1 border-gray-200 w-full mx-auto mt-20 rounded-md flex h-[900px] "
       >
         <div className="w-1/3 border-r">
-          <div className="p-4 text-lg font-semibold text-white bg-[#71abe0] rounded-t-md">Inbox</div>
+          
           {conversations.length === 0 ? (
             <div className="p-4 text-sm text-center text-gray-500">
               You don't have any messages yet. They'll appear here once you do.
@@ -202,7 +202,7 @@ const AllMessages = () => {
                   key={chat.id}
                   onClick={() => handleSelectConversation(chat)}
                   className={`flex items-center gap-2 p-4 border-b cursor-pointer hover:bg-gray-100 ${
-                    selected?.id === chat.id ? "bg-blue-50 border-l-4 border-l-sky-500" : ""
+                    selected?.id === chat.id ? "bg-[#319FCA33] " : ""
                   }`}
                 >
                   <img src="https://i.pravatar.cc/40" alt="Avatar" className="w-10 h-10 rounded-full" />
@@ -243,7 +243,7 @@ const AllMessages = () => {
                     <div
                       className={`max-w-xs p-3 rounded-lg text-sm ${
                         msg.type === "sent"
-                          ? "bg-sky-500 text-white rounded-br-none"
+                          ? "bg-[#B74140] text-white rounded-br-none"
                           : "bg-white text-gray-800 rounded-bl-none shadow-sm"
                       }`}
                     >

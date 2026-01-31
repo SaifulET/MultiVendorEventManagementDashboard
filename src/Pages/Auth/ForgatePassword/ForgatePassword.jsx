@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Form, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import brandlogo from "../../../assets/image/imagepng.png";
+import brandlogo from "../../../assets/image/logo.svg";
 
 const ForgatePassword = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const onFinish = (values) => {
+  const onFinish = () => {
     setLoading(true);
     // Simulate sending reset email
     setTimeout(() => {
@@ -46,7 +46,7 @@ const ForgatePassword = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className=" bg-[#71ABE0] w-full text-white py-3 px-20 rounded-lg"
+                className=" bg-[#B74140] w-full text-white py-3 px-20 rounded-lg"
                 disabled={loading}
               >
                 {loading ? "Sending..." : "Send a Code"}

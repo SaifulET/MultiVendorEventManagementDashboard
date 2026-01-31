@@ -181,7 +181,7 @@ const Earnings = () => {
           onClick={() => handlePageChange(i)}
           className={`px-3 py-2 text-sm font-medium rounded ${
             currentPage === i
-              ? "bg-[#71ABE0] text-white"
+              ? "bg-[#B74140] text-white"
               : "text-gray-700 hover:bg-gray-100"
           }`}
         >
@@ -286,7 +286,7 @@ const Earnings = () => {
           {/* Table */}
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="text-white bg-[#71ABE0]">
+              <thead className="text-white bg-[#B74140]">
                 <tr>
                   <th className="px-6 py-4 text-sm font-medium text-left">
                     S.ID
@@ -357,7 +357,7 @@ const Earnings = () => {
                         </button>
                         <button
                           onClick={() => handleView(subscription)}
-                          className="p-1 text-[#71ABE0] transition-colors hover:text-gray-700"
+                          className="p-1 text-[#B74140] transition-colors hover:text-gray-700"
                           title="View Details"
                         >
                           <Eye className="w-5 h-5" />
@@ -372,7 +372,7 @@ const Earnings = () => {
 
           {/* Pagination */}
           <div className="flex items-center justify-between px-6 py-4 bg-white border-t border-gray-200">
-            <div className="text-sm font-medium text-[#71ABE0]">
+            <div className="text-sm font-medium text-[#B74140]">
               SHOWING {startItem}-{endItem} OF {totalItems}
             </div>
             <div className="flex items-center gap-1">
@@ -388,7 +388,7 @@ const Earnings = () => {
           <div className="w-full max-w-md p-6 mx-4 bg-white rounded-lg shadow-xl">
             {/* Modal Header */}
             <div className="flex items-center mb-6">
-              <h2 className="text-2xl font-semibold  text-[#71ABE0] w-4/5">
+              <h2 className="text-2xl font-semibold  text-[#B74140] w-4/5">
                 Transaction Details
               </h2>
              <div className="flex self-end justify-end w-1/5">
@@ -461,13 +461,13 @@ const Earnings = () => {
             <div className="flex gap-4">
               <button
                 onClick={handleCloseModal}
-                className="flex-1 px-4 py-2 font-medium text-[#71ABE0] transition-colors border-2 border-[#71ABE0] rounded-lg hover:bg-blue-50"
+                className="flex-1 px-4 py-2 font-medium text-[#B74140] transition-colors border-2 border-[#B74140] rounded-lg hover:bg-blue-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDownloadInvoice}
-                className="flex-1 px-4 py-2 font-medium text-white transition-colors bg-[#71ABE0] rounded-lg hover:bg-blue-400"
+                className="flex-1 px-4 py-2 font-medium text-white transition-colors bg-[#B74140] rounded-lg hover:bg-blue-400"
               >
                 Download Invoice
               </button>

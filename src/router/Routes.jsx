@@ -28,6 +28,12 @@ import ActivityEvents from "../Pages/Activity & Events/ActivityEvents";
 import VenueListingApproval from "../Pages/Venue & Service/VenueListingApproval";
 import VenueApproval from "../Components/VenueandService/VenueDetails";
 import Veneudetails from "../Pages/Venue & Service/veneudetails";
+import OurMission from "../Pages/Settings/OurMission/OurMissioin";
+import OurVision from "../Pages/Settings/OurVision/OurVision";
+import SettingsForgotPassword from "../Pages/Settings/ForgetPassword/ForgetPassword";
+import SettingsEmailVerification from "../Pages/Settings/OTP/EmailVerification";
+import AdminManagementPage from "../Pages/Admin/Admin";
+import CreateAdmin from "../Pages/CreateAdmin/CreateAdmin";
 export const router = createBrowserRouter([
   {
     path: "/sign-in",
@@ -69,10 +75,15 @@ export const router = createBrowserRouter([
           { path: "/settings", element: <Settings /> },
           { path: "/settings/about-us", element: <AboutUs /> },
           { path: "/settings/privacy-policy", element: <PrivacyPolicy /> },
+          { path: "/settings/ourmission", element: <OurMission /> },
+          { path: "/settings/forget-password", element: <SettingsForgotPassword /> },
+          { path: "/settings/otp", element: <SettingsEmailVerification /> },
+          { path: "/settings/ourvision", element: <OurVision /> },
           { path: "/settings/terms-condition", element: <TermsCondition /> },
           { path: "/settings/profile", element: <ProfilePage /> },
           { path: "/settings/change-password", element: <ChangePass /> },
           { path: "/messages", element: <AllMessages /> },
+          { path: "/CreateAdmin", element: <CreateAdmin /> },
           { path: "/venueandservice", element: <VenueListingApproval /> },
           { path: "/venueandservice/venuedetails/:id", element: <Veneudetails/> },
         ],

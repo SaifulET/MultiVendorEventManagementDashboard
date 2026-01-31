@@ -28,16 +28,26 @@ const Settings = () => {
       label: "Terms & Conditions",
       link: "/settings/terms-condition",
     },
+    {
+      icon: <RiTerminalWindowLine className="w-5 h-5" />,
+      label: "Our Mission",
+      link: "/settings/ourmission",
+    },
+    {
+      icon: <RiTerminalWindowLine className="w-5 h-5" />,
+      label: "Our Vision",
+      link: "/settings/ourvision",
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       <div
-        style={{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.24)" }}
-        className="mx-auto mt-20 rounded-md "
+        
+        className="border border-1 border-gray-200 mx-auto mt-20 rounded-md "
       >
         {/* Header */}
-        <div className="px-6 py-8  bg-[#71ABE0] rounded-tl-md rounded-tr-md ">
+        <div className="px-6 py-8  bg-[#B74140] rounded-tl-md rounded-tr-md ">
           <h1 className="text-2xl font-semibold text-white">Settings</h1>
         </div>
 

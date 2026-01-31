@@ -52,7 +52,7 @@ function Profile({ setActiveTab }) {
         <div className="py-3 text-center">
           <button
             onClick={() => setActiveTab("/settings/editProfile")}
-            className="bg-[#71abe0] text-white font-semibold w-full py-2 rounded-lg"
+            className="bg-[#B74140] text-white font-semibold w-full py-2 rounded-lg"
           >
             Edit
           </button>

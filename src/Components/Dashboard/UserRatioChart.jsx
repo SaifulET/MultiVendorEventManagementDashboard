@@ -16,10 +16,10 @@ const userData = [
   { month: "Dec", users: 720 },
 ];
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload}) => {
   if (active && payload && payload.length) {
     return (
-      <div className="px-3 py-2 text-white bg-[#71ABE0] rounded shadow-lg">
+      <div className="px-3 py-2 text-white bg-[#B74140] rounded shadow-lg">
         <p className="text-sm font-medium">{`Users: ${payload[0].value}`}</p>
       </div>
     );
@@ -41,14 +41,14 @@ const UserRatioChart = () => {
 
   return (
     <div
-    style={{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.24)" }}
+   
     className="p-6 bg-white border rounded-lg ">
       {/*============================== Header ==============================*/}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="mb-2 text-lg font-semibold text-gray-800">User Ratio</h2>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-[#71ABE0] rounded-full"></div>
+            <div className="w-3 h-3 bg-[#B74140] rounded-full"></div>
             <span className="text-sm text-gray-600">Users</span>
           </div>
         </div>
@@ -56,7 +56,7 @@ const UserRatioChart = () => {
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
-            className="px-4 py-2 text-sm font-medium text-white bg-[#71ABE0] border-none rounded outline-none cursor-pointer"
+            className="px-4 py-2 text-sm font-medium text-white bg-[#B74140] border-none rounded outline-none cursor-pointer"
           >
             <option value="2024">Year-2025</option>
             <option value="2024">Year-2024</option>
@@ -91,7 +91,7 @@ const UserRatioChart = () => {
             <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(59, 130, 246, 0.1)" }} />
             <Bar
               dataKey="users"
-              fill="#71ABE0"
+              fill="#B74140"
               radius={[10, 10, 0, 0]}
               barSize={30} 
               onMouseEnter={(e) => handleMouseEnter(e.index)} 

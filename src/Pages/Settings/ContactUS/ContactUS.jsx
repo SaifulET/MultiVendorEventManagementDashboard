@@ -28,7 +28,7 @@ const ContactUS = () => {
 
   return (
     <div className="container mx-auto max-w-4xl mt-10">
-      <div className="bg-white rounded-lg p-6 shadow-lg">
+      <div className="bg-white rounded-lg p-6 border border-1 border-gray-200">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-700">
             Contact Email Configuration

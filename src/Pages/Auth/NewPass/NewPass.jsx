@@ -3,7 +3,7 @@ import { FaRegEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import brandlogo from "../../../assets/image/stone-logo.png";
+import brandlogo from "../../../assets/image/logo.svg";
 
 const NewPass = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const NewPass = () => {
 
   const onFinish = async (values) => {
     setLoading(true);
-    const { email, newPassword, confirmPassword } = values;
+    const {  newPassword, confirmPassword } = values;
 
     // Simulate API call
     setTimeout(() => {
@@ -106,7 +106,7 @@ const NewPass = () => {
 
             <Form.Item className="mt-8 text-center">
               <button
-                className="bg-[#71ABE0] text-center w-full   p-2 font-semibold  text-white px-20 py-3 rounded-md "
+                className="bg-[#B74140] text-center w-full   p-2 font-semibold  text-white px-20 py-3 rounded-md "
                 type="submit"
                 disabled={loading}
               >

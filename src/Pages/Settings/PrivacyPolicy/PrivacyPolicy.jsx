@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef,  } from "react";
 import JoditEditor from "jodit-react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
@@ -18,8 +18,8 @@ const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen ">
       <Link
-        to={"/"}
-        className="flex items-center mt-16 mb-6 text-white gap-x-3"
+        to={"/settings"}
+        className="flex items-center mt-16 mb-6 p-[18px] rounded text-white bg-[#B74140] gap-x-3"
       >
         <FaArrowLeftLong size={20} />
         <h1 className="text-2xl font-semibold "> Privacy Policy</h1>
@@ -34,7 +34,7 @@ const PrivacyPolicy = () => {
           onChange={() => {}}
         />
         <div className="text-center">
-          <button className="bg-[#319FCA] p-2 text-white  mt-2 rounded-lg">
+          <button className="bg-[#B74140] p-2 text-white  mt-2 rounded-lg">
             Save Change
           </button>
         </div>

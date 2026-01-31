@@ -178,7 +178,7 @@ const Subscriptions = () => {
         key="prev"
         onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage === 1}
-        className="px-3 py-2 text-gray-500 hover:text-[#71ABE0] disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 text-gray-500 hover:text-[#B74140] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
           className="w-5 h-5"
@@ -211,8 +211,8 @@ const Subscriptions = () => {
           onClick={() => handlePageChange(i)}
           className={`px-3 py-2 text-sm font-medium rounded ${
             currentPage === i
-              ? "bg-[#71ABE0] text-white"
-              : "text-[#71ABE0] hover:bg-gray-100"
+              ? "bg-[#B74140] text-white"
+              : "text-[#B74140] hover:bg-gray-100"
           }`}
         >
           {i}
@@ -239,7 +239,7 @@ const Subscriptions = () => {
               className={`px-3 py-2 text-sm font-medium rounded ${
                 currentPage === page
                   ? "bg-blue-500 text-white"
-                  : "text-[#71ABE0] hover:bg-gray-100"
+                  : "text-[#B74140] hover:bg-gray-100"
               }`}
             >
               {page}
@@ -254,7 +254,7 @@ const Subscriptions = () => {
         key="next"
         onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
         disabled={currentPage === totalPages}
-        className="px-3 py-2 text-gray-500 hover:text-[#71ABE0] disabled:opacity-50 disabled:cursor-not-allowed"
+        className="px-3 py-2 text-gray-500 hover:text-[#B74140] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
           className="w-5 h-5"
@@ -282,7 +282,7 @@ const Subscriptions = () => {
         className="mx-auto mt-16"
       >
         {/*========================== Header ==========================*/}
-        <div className="px-6 py-4 bg-[#71ABE0] rounded-t-lg">
+        <div className="px-6 py-4 bg-[#B74140] rounded-t-lg">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-semibold text-white">Subscriptions</h1>
             <div className="flex items-center gap-4">
@@ -302,7 +302,7 @@ const Subscriptions = () => {
               {/*============================ Manage Fees Button============================ */}
               <button
                 onClick={handleManageFees}
-                className="px-4 py-2 font-medium text-blue-500 transition-colors bg-white rounded-md hover:bg-gray-50"
+                className="px-4 py-2 font-medium text-[#B74140] transition-colors bg-white rounded-md hover:bg-gray-50"
               >
                 Manages Fees
               </button>
@@ -316,22 +316,22 @@ const Subscriptions = () => {
             <table className="w-full">
               <thead className="border-b border-gray-200 bg-gray-50">
                 <tr>
-                  <th className="px-6 py-4 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-6 py-4 text-sm font-medium text-left text-[#B74140]">
                     S.ID
                   </th>
-                  <th className="px-6 py-4 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-6 py-4 text-sm font-medium text-left text-[#B74140]">
                     User
                   </th>
-                  <th className="px-6 py-4 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-6 py-4 text-sm font-medium text-left text-[#B74140]">
                     Email
                   </th>
-                  <th className="px-6 py-4 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-6 py-4 text-sm font-medium text-left text-[#B74140]">
                     Status
                   </th>
-                  <th className="px-6 py-4 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-6 py-4 text-sm font-medium text-left text-[#B74140]">
                     Plans
                   </th>
-                  <th className="px-6 py-4 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-6 py-4 text-sm font-medium text-left text-[#B74140]">
                     Expiration Date
                   </th>
                 </tr>
@@ -385,7 +385,7 @@ const Subscriptions = () => {
 
           {/*===================== Pagination =====================*/}
           <div className="flex items-center justify-between px-6 py-4 bg-white border-t border-gray-200">
-            <div className="text-sm font-medium text-[#71ABE0]">
+            <div className="text-sm font-medium text-[#B74140]">
               SHOWING {startItem}-{endItem} OF {totalItems}
             </div>
             <div className="flex items-center gap-1">
@@ -400,7 +400,7 @@ const Subscriptions = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-2xl mx-4 bg-white rounded-lg shadow-xl">
             {/* ================================================Modal Header================================================ */}
-            <div className="px-6 py-4 text-center text-white bg-[#71ABE0] rounded-t-lg">
+            <div className="px-6 py-4 text-center text-white bg-[#B74140] rounded-t-lg">
               <h2 className="text-xl font-semibold">Manage Fees</h2>
               <div className="flex items-center justify-end">
                 <button
@@ -424,7 +424,7 @@ const Subscriptions = () => {
                   {/* ====================================Monthly Plans ====================================*/}
                   <div className="p-4 mb-6 border border-gray-200 rounded-lg">
                     <div className="flex items-center justify-center mb-3">
-                      <span className="text-sm font-medium text-[#71ABE0]">
+                      <span className="text-sm font-medium text-[#B74140]">
                         Monthly Plans: ${subscriptionFees.monthly}
                       </span>
                     </div>
@@ -454,7 +454,7 @@ const Subscriptions = () => {
                               monthly: subscriptionFees.monthly + 1,
                             })
                           }
-                          className="flex items-center justify-center w-8 h-8 text-white transition-colors bg-[#71ABE0] rounded-full hover:bg-blue-400"
+                          className="flex items-center justify-center w-8 h-8 text-white transition-colors bg-[#B74140] rounded-full hover:bg-blue-400"
                         >
                           <span className="font-bold">+</span>
                         </button>
@@ -465,7 +465,7 @@ const Subscriptions = () => {
                   {/* ================================6 Month Plan================================ */}
                   <div className="p-4 mb-6 border border-gray-200 rounded-lg">
                     <div className="flex items-center justify-center mb-3">
-                      <span className="text-sm font-medium text-[#71ABE0]">
+                      <span className="text-sm font-medium text-[#B74140]">
                         Current Value: ${subscriptionFees.sixMonth}
                       </span>
                     </div>
@@ -495,7 +495,7 @@ const Subscriptions = () => {
                               sixMonth: subscriptionFees.sixMonth + 1,
                             })
                           }
-                          className="flex items-center justify-center w-8 h-8 text-white transition-colors bg-[#71ABE0] rounded-full hover:bg-blue-400"
+                          className="flex items-center justify-center w-8 h-8 text-white transition-colors bg-[#B74140] rounded-full hover:bg-blue-400"
                         >
                           <span className="font-bold">+</span>
                         </button>
@@ -506,7 +506,7 @@ const Subscriptions = () => {
                   {/* ================================Yearly Plan================================ */}
                   <div className="p-4 mb-6 border border-gray-200 rounded-lg">
                     <div className="flex items-center justify-center mb-3">
-                      <span className="text-sm font-medium text-[#71ABE0]">
+                      <span className="text-sm font-medium text-[#B74140]">
                         Current Value: ${subscriptionFees.yearly}
                       </span>
                     </div>
@@ -533,7 +533,7 @@ const Subscriptions = () => {
                               yearly: subscriptionFees.yearly + 1,
                             })
                           }
-                          className="flex items-center justify-center w-8 h-8 text-white transition-colors bg-[#71ABE0] rounded-full hover:bg-blue-400"
+                          className="flex items-center justify-center w-8 h-8 text-white transition-colors bg-[#B74140] rounded-full hover:bg-blue-400"
                         >
                           <span className="font-bold">+</span>
                         </button>
@@ -549,13 +549,13 @@ const Subscriptions = () => {
               <div className="flex justify-center gap-4 pt-6 mt-8 border-t border-gray-200">
                 <button
                   onClick={handleUpdateFees}
-                  className="px-6 py-2 font-medium text-[#175994] transition-colors border-2 border-[#71ABE0] rounded-lg hover:bg-blue-50"
+                  className="px-6 py-2 font-medium text-[#175994] transition-colors border-2 border-[#B74140] rounded-lg hover:bg-blue-50"
                 >
                   Update fee
                 </button>
                 <button
                   onClick={handleResetToDefault}
-                  className="px-6 py-2 font-medium text-white transition-colors bg-[#71ABE0] rounded-lg hover:bg-[#1e496f]"
+                  className="px-6 py-2 font-medium text-white transition-colors bg-[#B74140] rounded-lg hover:bg-[#1e496f]"
                 >
                   Reset to default
                 </button>

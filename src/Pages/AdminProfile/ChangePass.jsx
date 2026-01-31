@@ -22,12 +22,12 @@ const  ChangePassword = () => {
 
   return (
     <div className="min-h-screen p-6 bg-gray-50">
-      <div  style={{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.24)" }}
-        className="mx-auto mt-16 rounded-2xl">
+      <div 
+        className="border border-1 border-gray-200 mx-auto mt-16 rounded-2xl">
         {/* Header */}
-        <div className="flex items-center px-4 py-4 rounded-tl-2xl rounded-tr-2xl bg-[#71ABE0]">
+        <div className="flex items-center px-4 py-4 rounded-tl-2xl rounded-tr-2xl bg-[#B74140]">
           <button className="p-1 mr-3 text-white transition-colors rounded hover:bg-blue-500">
-            <ArrowLeft size={20} />
+            <Link to="/settings"><ArrowLeft size={20} /></Link>
           </button>
           <h1 className="text-xl font-medium text-white">Change Password</h1>
         </div>
@@ -104,11 +104,11 @@ const  ChangePassword = () => {
           </div>
 
 
-
+          <Link to="/settings/forget-password" className='underline text-[#B74140] '>Forget Password</Link>
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            className="w-full py-3 font-medium text-white transition-colors bg-[#71ABE0] rounded hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            className="w-full py-3 font-medium text-white transition-colors bg-[#B74140] rounded hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
           >
             Change Password
           </button>

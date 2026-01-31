@@ -32,10 +32,10 @@ const Notifications = () => {
   );
 
   return (
-    <div className="flex items-center justify-center bg-gray-100">
-      <div className="w-full bg-white shadow-lg rounded-xl">
+    <div className="min-h-screen flex items-center justify-center ">
+      <div className="w-full bg-white border border-1 border-gray-200 rounded-xl">
         {/* Header */}
-        <div className="flex items-center gap-3 px-6 py-4 text-white bg-sky-600 rounded-t-xl">
+        <div className="flex items-center gap-3 px-6 py-4 text-white bg-[#B74140] rounded-t-xl">
           <IoIosArrowBack className="cursor-pointer" onClick={() => history.back()} />
           <h2 className="text-lg font-semibold">All Notifications</h2>
         </div>
@@ -45,7 +45,7 @@ const Notifications = () => {
           {currentItems.map((notif) => (
             <div key={notif.id} className="flex items-start gap-3">
               <div className="p-2 bg-gray-100 rounded-md">
-                <Bell size={18} className="text-blue-500" />
+                <Bell size={18} className="text-[#B74140]" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-800">{notif.message}</p>
@@ -82,7 +82,7 @@ const Notifications = () => {
                   key={pNum}
                   className={`px-3 py-1 border rounded-full text-sm ${
                     page === pNum
-                      ? "bg-blue-600 text-white border-blue-600"
+                      ? "bg-[#B74140] text-white border-[#B74140]"
                       : "border-gray-300 text-gray-700"
                   }`}
                   onClick={() => setPage(pNum)}

@@ -1,9 +1,9 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,  } from "react";
 import JoditEditor from "jodit-react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-const AboutUs = () => {
+const OurMission = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
@@ -12,18 +12,19 @@ const AboutUs = () => {
     placeholder: "Start typing...",
     height: 600,
     iframe: false,
+
   };
 
   return (
-    <div className="min-h-screen mt-16 ">
+    <div className="min-h-screen ">
       <Link
         to={"/settings"}
         className="flex items-center mt-16 mb-6 p-[18px] rounded text-white bg-[#B74140] gap-x-3"
       >
         <FaArrowLeftLong size={20} />
-        <h1 className="text-2xl font-semibold "> About Us</h1>
+        <h1 className="text-2xl font-semibold "> Our Mission</h1>
       </Link>
-      <di className="mt-5">
+      <div>
         <JoditEditor
           ref={editor}
           value={content}
@@ -37,9 +38,9 @@ const AboutUs = () => {
             Save Change
           </button>
         </div>
-      </di>
+      </div>
     </div>
   );
 };
 
-export default AboutUs;
+export default OurMission;

@@ -59,18 +59,18 @@ const RecentUsersTable = () => {
   }
 
   return (
-    <div className="p-4 bg-gray-50">
-      <div style={{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.24)" }} >
+    <div className=" my-[30px] bg-gray-50">
+      <div className="rounded border border-1 border-gray-200" >
         {/*============================= Header============================= */}
         <div className="px-6 py-4 mb-6 rounded-tl-lg rounded-tr-lg">
           <h1 className="text-2xl font-semibold">Recent Users</h1>
         </div>
 
         {/* =============================Table =============================*/}
-        <div className="bg-white rounded-lg shadow-sm">
+        <div className="bg-white rounded-lg ">
           <div >
             <table className="w-full">
-              <thead className="bg-[#71ABE0]">
+              <thead className="bg-[#B74140]">
                 <tr>
                   <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-white uppercase">
                     S.ID
@@ -134,7 +134,7 @@ const RecentUsersTable = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md mx-4 bg-white rounded-lg shadow-xl">
             <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="flex-1 text-2xl font-semibold text-center text-[#71ABE0]">
+              <h2 className="flex-1 text-2xl font-semibold text-center text-[#B74140]">
                 User Details
               </h2>
               <button onClick={handleCloseModal} className="ml-4 text-gray-400 hover:text-gray-600">
@@ -145,7 +145,7 @@ const RecentUsersTable = () => {
             <div className="p-6">
               <div className="flex items-center mb-6">
                 <img src={selectedUser.avatar} className="w-16 h-16 mr-4 rounded-full" />
-                <h3 className="text-xl font-medium text-[#71ABE0]">{selectedUser.name}</h3>
+                <h3 className="text-xl font-medium text-[#B74140]">{selectedUser.name}</h3>
               </div>
 
               <div className="space-y-4">

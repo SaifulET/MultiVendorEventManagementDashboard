@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import brandlogo from "../../../assets/image/stone-logo.png";
+import brandlogo from "../../../assets/image/logo.svg";
 
 const VerifyCode = () => {
   const [code, setCode] = useState(["", "", "", "", ""]);
@@ -78,7 +78,7 @@ const VerifyCode = () => {
 
             <button
               type="submit"
-              className=" py-3 px-20 w-full mt-8 text-white transition-colors rounded-md bg-[#71ABE0]  focus:outline-none focus:ring-2 focus:ring-sky-300 focus:ring-offset-2"
+              className=" py-3 px-20 w-full mt-8 text-white transition-colors rounded-md bg-[#B74140]  focus:outline-none focus:ring-2 focus:ring-sky-300 focus:ring-offset-2"
             >
               Verify Code
             </button>

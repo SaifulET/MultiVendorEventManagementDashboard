@@ -1,26 +1,9 @@
 import { useState } from "react";
 import { LuPenLine } from "react-icons/lu";
-import { Link } from "react-router-dom";
-import EditProfile from "./EditProfile";
-import ChangePass from "./ChangePass";
-import Profile from "./Profile"; // ✅ Added missing import
 
 function ProfilePage() {
-  const [activeTab, setActiveTab] = useState("/settings/profile");
-  const [profilePic, setProfilePic] = useState(null);
-
-  const getTabTitle = () => {
-    switch (activeTab) {
-      case "/settings/profile":
-        return "Profile";
-      case "/settings/editProfile":
-        return "Edit Profile";
-      case "/settings/changePassword":
-        return "Change Password";
-      default:
-        return "";
-    }
-  };
+  const [activeTab, setActiveTab] = useState("profile");
+  const [profilePic, setProfilePic] = useState("https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop");
 
   const handleProfilePicChange = (event) => {
     const file = event.target.files[0];
@@ -30,82 +13,222 @@ function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
-      <div
-        style={{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.24)" }}
-        className="mx-auto mt-16"
-      >
-        {/* Header with title */}
-        <div className="bg-[#71abe0] p-5 rounded-t-xl text-[#ffff]">
-          <div>
-            <Link to="/" className="px-10 text-3xl font-bold text-start">
-              {getTabTitle()}
-            </Link>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-6 mt-6">
+      <div className="w-full  bg-white rounded-xl border border-1 border-gray-200 overflow-hidden">
+        {/* Header */}
+        <div className="bg-[#B74140] p-6">
+          <h1 className="text-white text-2xl font-bold">Profile</h1>
+        </div>
+
+        {/* Profile Picture */}
+        <div className="flex justify-center mt-12">
+          <div className="relative">
+            <img
+              src={profilePic}
+              alt="Profile"
+              className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
+            />
+            <div className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md cursor-pointer">
+              <label htmlFor="profilePicUpload" className="cursor-pointer">
+                <LuPenLine className="w-5 h-5 text-gray-600" />
+              </label>
+              <input
+                type="file"
+                id="profilePicUpload"
+                className="hidden"
+                accept="image/*"
+                onChange={handleProfilePicChange}
+              />
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center mx-auto">
-          {/* Profile Picture */}
-          <div className="w-full">
-            <div className="mt-10 ">
-              <div className="w-[122px] relative h-[122px] mx-auto rounded-full border-4 shadow-xl flex justify-center items-center">
-                <img
-                  src={profilePic || ""}
-                  alt="profile"
-                  className="w-32 h-32 overflow-hidden rounded-full"
-                />
-                <div className="absolute right-0 p-2 rounded-full shadow-md cursor-pointer bottom-2">
-                  <label htmlFor="profilePicUpload" className="cursor-pointer">
-                    <LuPenLine />
-                  </label>
-                  <input
-                    type="file"
-                    id="profilePicUpload"
-                    className="hidden"
-                    onChange={handleProfilePicChange}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Name */}
+        <div className="text-center mt-4">
+          <h2 className="text-2xl font-semibold text-gray-800">Mr. Admin</h2>
+        </div>
 
-          {/* Tab Navigation */}
-          <div className="flex items-center justify-center gap-5 my-5 font-semibold text-md md:text-xl">
-            <p
-              onClick={() => setActiveTab("/settings/profile")}
-              className={`cursor-pointer pb-1 ${
-                activeTab === "/settings/profile"
-                  ? "border-b-2 border-[#319FCA] text-[#319FCA]"
-                  : ""
-              }`}
-            >
-              Profile
-            </p>
-            <p
-              onClick={() => setActiveTab("/settings/editProfile")}
-              className={`cursor-pointer pb-1 ${
-                activeTab === "/settings/editProfile"
-                  ? "border-b-2 border-[#319FCA] text-[#319FCA]"
-                  : ""
-              }`}
-            >
-              Edit Profile
-            </p>
-          </div>
+        {/* Tab Navigation */}
+        <div className="flex justify-center gap-8 mt-6 border-b">
+          <button
+            onClick={() => setActiveTab("profile")}
+            className={`pb-3 px-4 font-medium transition-colors ${
+              activeTab === "profile"
+                ? "text-[#B74140] border-b-2 border-[#B74140]"
+                : "text-gray-500"
+            }`}
+          >
+            Edit Profile
+          </button>
+          <button
+            onClick={() => setActiveTab("password")}
+            className={`pb-3 px-4 font-medium transition-colors ${
+              activeTab === "password"
+                ? "text-[#B74140] border-b-2 border-[#B74140]"
+                : "text-gray-500"
+            }`}
+          >
+            Change Password
+          </button>
+        </div>
 
-          {/* Tab Content */}
-          <div className="flex items-center justify-center p-5 rounded-md">
-            <div className="w-full max-w-3xl">
-              {activeTab === "/settings/profile" && (
-                <Profile setActiveTab={setActiveTab} />
-              )}
-              {activeTab === "/settings/editProfile" && <EditProfile />}
-              {activeTab === "/settings/changePassword" && <ChangePass />}
-            </div>
-          </div>
+        {/* Tab Content */}
+        <div className="p-8">
+          {activeTab === "profile" ? (
+            <EditProfileTab />
+          ) : (
+            <ChangePasswordTab />
+          )}
         </div>
       </div>
     </div>
+  );
+}
+
+function EditProfileTab() {
+  const [formData, setFormData] = useState({
+    username: "userdemo",
+    email: "email@gmail.com",
+    contact: "+1 222 333 4444"
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Profile updated:", formData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label className="block text-gray-700 font-medium mb-2">
+          User Name
+        </label>
+        <input
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#B74140] focus:border-transparent"
+        />
+      </div>
+
+      <div>
+        <label className="block text-gray-700 font-medium mb-2">
+          Email
+        </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#B74140] focus:border-transparent"
+        />
+      </div>
+
+      <div>
+        <label className="block text-gray-700 font-medium mb-2">
+          Contact No
+        </label>
+        <input
+          type="tel"
+          name="contact"
+          value={formData.contact}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#B74140] focus:border-transparent"
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-[#B74140] text-white py-3 rounded-md font-medium hover:bg-[#A03736] transition-colors"
+      >
+        Update Profile
+      </button>
+    </form>
+  );
+}
+
+function ChangePasswordTab() {
+  const [formData, setFormData] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (formData.newPassword !== formData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    console.log("Password updated");
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label className="block text-gray-700 font-medium mb-2">
+          Current Password
+        </label>
+        <input
+          type="password"
+          name="currentPassword"
+          value={formData.currentPassword}
+          onChange={handleChange}
+          placeholder="*******"
+          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#B74140] focus:border-transparent"
+        />
+      </div>
+
+      <div>
+        <label className="block text-gray-700 font-medium mb-2">
+          New Password
+        </label>
+        <input
+          type="password"
+          name="newPassword"
+          value={formData.newPassword}
+          onChange={handleChange}
+          placeholder="*******"
+          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#B74140] focus:border-transparent"
+        />
+      </div>
+
+      <div>
+        <label className="block text-gray-700 font-medium mb-2">
+          Confirm Password
+        </label>
+        <input
+          type="password"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          placeholder="*******"
+          className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#B74140] focus:border-transparent"
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-[#B74140] text-white py-3 rounded-md font-medium hover:bg-[#A03736] transition-colors"
+      >
+        Update Password
+      </button>
+    </form>
   );
 }
 

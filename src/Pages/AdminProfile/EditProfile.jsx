@@ -7,6 +7,7 @@ function EditProfile() {
           number:"01712345678",
           address:"79/A Joker Vila, Gotham City"
         });
+        
   return (
     <div >
       <p className="mb-5 text-2xl font-bold text-center text-black">
@@ -54,7 +55,7 @@ function EditProfile() {
         </div>
     
         <div className="py-3 text-center">
-          <button className="bg-[#71abe0] text-white  font-semibold w-full py-2 rounded-lg">
+          <button className="bg-[#B74140] text-white  font-semibold w-full py-2 rounded-lg">
           Save  Change
           </button>
         </div>

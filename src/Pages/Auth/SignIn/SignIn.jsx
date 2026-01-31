@@ -2,7 +2,7 @@ import { Checkbox, Form, Input, Typography } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import brandlogo from "../../../assets/image/stone-logo.png";
+import brandlogo from "../../../assets/image/logo.svg";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -13,12 +13,12 @@ const SignIn = () => {
     setShowpassword(!showpassword)
   };
 
-  const onFinish = (values) => {
+  const onFinish = () => {
     setLoading(true);
     // Simulating login without actual API call
     setTimeout(() => {
       setLoading(false);
-      navigate("/dashboard");
+      navigate("/");
     }, 1500);
   };
 
@@ -85,7 +85,7 @@ const SignIn = () => {
               </div>
               <Form.Item className="my-5 text-center">
                 <button
-                  className="bg-[#71ABE0] text-center w-full   p-2 font-semibold  text-white px-20 py-3 rounded-md "
+                  className="bg-[#B74140] text-center w-full   p-2 font-semibold  text-white px-20 py-3 rounded-md "
                   type="submit"
                   disabled={loading}
                 >

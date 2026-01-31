@@ -44,6 +44,11 @@ const Sidebar = () => {
       label: "Venue & Service",
       Link: "/venueandService",
     },
+    {
+      icon: <Users className="w-5 h-5" />,
+      label: "Create Admin",
+      Link: "/createAdmin",
+    },
 
    
     {

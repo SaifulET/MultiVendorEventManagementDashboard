@@ -50,8 +50,8 @@ const Header = ({ showDrawer }) => {
           {/* Message Icon */}
           <Link
             to="/messages"
-            className={`relative p-2 transition border rounded-full hover:bg-blue-50 ${
-              isMessagesActive ? "bg-[#319FCA] text-white border-[#319FCA]" : "text-blue-700 border-[#319FCA]"
+            className={`relative p-2 transition border rounded-full hover:bg-[#B74140] ${
+              isMessagesActive ? "bg-[#B74140] text-white border-[#B74140]" : "text-[#B74140] border-[#B74140]"
             }`}
           >
             <MessageSquareMore />
@@ -59,7 +59,7 @@ const Header = ({ showDrawer }) => {
 
           {/* Notification Icon */}
           <button
-            className="relative p-2 text-blue-700 transition border border-[#319FCA] rounded-full hover:bg-blue-50"
+            className="relative p-2 text-[#B74140] transition border border-[#B74140] rounded-full hover:bg-gray-50"
             onClick={() => setShowNotifications((prev) => !prev)}
           >
             <IoMdNotificationsOutline className="text-xl" />
@@ -70,7 +70,7 @@ const Header = ({ showDrawer }) => {
 
           {/* Profile Icon */}
           <Link to="/settings/profile" >
-          <div className="p-2 text-blue-700 transition border border-blue-500 rounded-full hover:bg-blue-50">
+          <div className="p-2 text-blue-700 transition border border-[#B74140] rounded-full hover:bg-blue-50">
             <img
               src={adminImage}
               alt="Admin"
@@ -92,7 +92,7 @@ const Header = ({ showDrawer }) => {
             {notifications.map((item, index) => (
               <div key={index} className="flex items-start gap-3">
                 <div className="bg-[#f1f5f9] p-2 rounded-md">
-                  <Bell className="text-[#1e293b]" size={20} />
+                  <Bell className="text-[#B74140]" size={20} />
                 </div>
                 <div>
                   <p className="text-sm font-medium text-[#1e293b]">
@@ -109,7 +109,7 @@ const Header = ({ showDrawer }) => {
               setShowNotifications(false);
               navigate("/notifications");
             }}
-            className="mt-6 w-full bg-[#71abe0] text-white py-2 rounded-md hover:bg-blue-400 transition duration-200"
+            className="mt-6 w-full bg-[#B74140] text-white py-2 rounded-md hover:bg-[#c25251] transition duration-200"
           >
             Load More
           </button>

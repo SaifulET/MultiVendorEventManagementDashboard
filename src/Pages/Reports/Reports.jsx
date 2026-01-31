@@ -63,15 +63,15 @@ const Reports = () => {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gray-50">
+    <div className="min-h-screen py-6 ">
       <div
-        style={{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.24)" }}
-        className="mx-auto mt-16"
+       
+        className="mx-auto mt-16 border border-1 border-gray-200 rounded-md"
       >
         {/* Card Container */}
         <div className="overflow-hidden bg-white rounded-lg shadow-md">
           {/* Header */}
-          <div className="px-6 py-4 text-white bg-[#71ABE0]">
+          <div className="px-6 py-4 text-white bg-[#B74140]">
             <h1 className="text-xl font-semibold">Reports</h1>
           </div>
 
@@ -81,19 +81,19 @@ const Reports = () => {
               {/* Table Header */}
               <thead>
                 <tr className="bg-white border-b">
-                  <th className="w-16 px-4 py-3 text-sm font-medium text-center text-[#71ABE0]">
+                  <th className="w-16 px-4 py-3 text-sm font-medium text-center text-[#B74140]">
                     S.ID
                   </th>
-                  <th className="px-4 py-3 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-4 py-3 text-sm font-medium text-left text-[#B74140]">
                     Report From
                   </th>
-                  <th className="px-4 py-3 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-4 py-3 text-sm font-medium text-left text-[#B74140]">
                     Report Reason
                   </th>
-                  <th className="px-4 py-3 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-4 py-3 text-sm font-medium text-left text-[#B74140]">
                     Report To
                   </th>
-                  <th className="px-4 py-3 text-sm font-medium text-left text-[#71ABE0]">
+                  <th className="px-4 py-3 text-sm font-medium text-left text-[#B74140]">
                     Date & Time
                   </th>
                 </tr>
@@ -147,7 +147,7 @@ const Reports = () => {
 
           {/* Pagination Footer */}
           <div className="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
-            <div className="text-sm font-medium text-[#71ABE0]">
+            <div className="text-sm font-medium text-[#B74140]">
               SHOWING {startIndex + 1}-{Math.min(endIndex, totalItems)} OF{" "}
               {totalItems}
             </div>
@@ -173,7 +173,7 @@ const Reports = () => {
                     <button
                       className={`w-8 h-8 flex items-center justify-center rounded text-sm font-medium transition-colors ${
                         currentPage === page
-                          ? "bg-[#71ABE0] text-white hover:bg-[#71ABE0]"
+                          ? "bg-[#B74140] text-white hover:bg-[#B74140]"
                           : "hover:bg-gray-200 text-gray-700"
                       }`}
                       onClick={() => handlePageChange(page)}

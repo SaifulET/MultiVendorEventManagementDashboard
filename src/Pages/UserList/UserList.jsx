@@ -9,6 +9,7 @@ const UserList = () => {
   const [selectedUser, setSelectedUser] = useState(null)
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
   const [userToBlock, setUserToBlock] = useState(null)
+  const [activeTab, setActiveTab] = useState("clients")
 
  // Random name list
 const randomNames = [
@@ -20,30 +21,51 @@ const randomNames = [
 ]
 
 // Generate random users
-const users = Array.from({ length: 20 }, (_, i) => {
+const users = Array.from({ length: 60 }, (_, i) => {
   const name = randomNames[Math.floor(Math.random() * randomNames.length)]
-
-  return {
+  const userType = i < 20 ? "clients" : i < 40 ? "service" : "venue"
+  
+  const baseUser = {
     id: i + 1,
     name,
     email: `${name.toLowerCase().replace(/ /g, "")}${i + 1}@gmail.com`,
     joinedDate: "02-24-2024",
-    avatar:
-      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000",
+    avatar: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000",
+    userType
   }
+
+  // Add provider-specific fields
+  if (userType === "service" || userType === "venue") {
+    return {
+      ...baseUser,
+      phone: `+12313412${String(i).padStart(2, "0")}`,
+      specializations: userType === "service" 
+        ? ["Residential", "Commercial", "Home Installation", "Repair", "HVAC"]
+        : ["Event Space", "Conference Room", "Banquet Hall"],
+      licenseNumber: `12345${String(678 + i).padStart(3, "0")}`
+    }
+  }
+
+  return baseUser
 })
 
 
-  const totalUsers = users.length
+  const filteredUsers = users.filter(user => user.userType === activeTab)
+  const totalUsers = filteredUsers.length
   const usersPerPage = 8
   const totalPages = Math.ceil(totalUsers / usersPerPage)
 
   // Pagination
   const startIndex = (currentPage - 1) * usersPerPage
-  const currentUsers = users.slice(startIndex, startIndex + usersPerPage)
+  const currentUsers = filteredUsers.slice(startIndex, startIndex + usersPerPage)
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
+  }
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab)
+    setCurrentPage(1)
   }
 
   // Modals
@@ -93,11 +115,11 @@ const users = Array.from({ length: 20 }, (_, i) => {
   return (
     <div className="min-h-screen p-4 bg-gray-50">
       <div
-        style={{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.24)" }}
-        className="mx-auto mt-16"
+       
+        className="border border-1 border-gray-200 mx-auto mt-16"
       >
         {/* Header */}
-        <div className="px-6 py-4 mb-6 rounded-tl-lg rounded-tr-lg bg-[#71ABE0]">
+        <div className="px-6 py-4 mb-6 rounded-tl-lg rounded-tr-lg bg-[#B74140]">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-semibold text-white">User List</h1>
 
@@ -113,7 +135,7 @@ const users = Array.from({ length: 20 }, (_, i) => {
                 />
               </div>
               <Link to={'/block-list'}>
-              <button className="px-4 py-2 text-sm font-medium bg-white rounded-lg text-cyan-600 hover:bg-gray-50">
+              <button className="px-4 py-2 text-sm font-medium bg-white rounded-lg text-[#B74140] hover:bg-gray-50">
                 Blocked Users
               </button>
               </Link>
@@ -121,25 +143,61 @@ const users = Array.from({ length: 20 }, (_, i) => {
           </div>
         </div>
 
+        {/* Tab Buttons */}
+        <div className="px-6 mb-6">
+          <div className="flex gap-3">
+            <button
+              onClick={() => handleTabChange("clients")}
+              className={`px-4 py-2 text-sm font-medium rounded border ${
+                activeTab === "clients"
+                  ? "bg-[#B74140] text-white border-[#B74140]"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              Clients
+            </button>
+            <button
+              onClick={() => handleTabChange("service")}
+              className={`px-4 py-2 text-sm font-medium rounded border ${
+                activeTab === "service"
+                  ? "bg-[#B74140] text-white border-[#B74140]"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              Service Provider
+            </button>
+            <button
+              onClick={() => handleTabChange("venue")}
+              className={`px-4 py-2 text-sm font-medium rounded border ${
+                activeTab === "venue"
+                  ? "bg-[#B74140] text-white border-[#B74140]"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              Venue Provider
+            </button>
+          </div>
+        </div>
+
         {/* Table */}
-        <div className="bg-white rounded-lg shadow-sm">
+        <div className="bg-white rounded-lg">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#B74140] uppercase">
                     S.ID
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#B74140] uppercase">
                     Full Name
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#B74140] uppercase">
                     Email
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#B74140] uppercase">
                     Joined Date
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-[#B74140] uppercase">
                     Action
                   </th>
                 </tr>
@@ -174,7 +232,7 @@ const users = Array.from({ length: 20 }, (_, i) => {
 
                         <button
                           onClick={() => handleViewUser(user)}
-                          className="flex items-center gap-1 p-1 text-[#71ABE0] rounded-full hover:bg-blue-50"
+                          className="flex items-center gap-1 p-1 text-[#B74140] rounded-full hover:bg-blue-50"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
@@ -208,7 +266,7 @@ const users = Array.from({ length: 20 }, (_, i) => {
                   disabled={page === "..."}
                   className={`min-w-[32px] rounded-lg px-3 py-1 text-sm ${
                     page === currentPage
-                      ? "bg-[#71ABE0] text-white"
+                      ? "bg-[#B74140] text-white"
                       : page === "..."
                       ? "text-gray-400 cursor-default"
                       : "text-gray-700 hover:bg-gray-100"
@@ -233,20 +291,24 @@ const users = Array.from({ length: 20 }, (_, i) => {
       {/* View User Modal */}
       {isModalOpen && selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-full max-w-md mx-4 bg-white rounded-lg shadow-xl">
+          <div className="w-full max-w-md mx-4 bg-white rounded-lg">
             <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="flex-1 text-2xl font-semibold text-center text-[#71ABE0]">
-                User Details
+              <h2 className="flex-1 text-2xl font-semibold text-center text-[#B74140]">
+                {selectedUser.userType === "clients" ? "User Details" : "Provider Details"}
               </h2>
               <button onClick={handleCloseModal} className="ml-4 text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
+            <div className="text-center text-gray-500 text-sm pt-2 px-6">
+              See all details about {selectedUser.name}
+            </div>
+
             <div className="p-6">
               <div className="flex items-center mb-6">
                 <img src={selectedUser.avatar} className="w-16 h-16 mr-4 rounded-full" />
-                <h3 className="text-xl font-medium text-[#71ABE0]">{selectedUser.name}</h3>
+                <h3 className="text-xl font-medium text-[#B74140]">{selectedUser.name}</h3>
               </div>
 
               <div className="space-y-4">
@@ -260,26 +322,70 @@ const users = Array.from({ length: 20 }, (_, i) => {
                   <span className="text-gray-900">{selectedUser.email}</span>
                 </div>
 
+                {(selectedUser.userType === "service" || selectedUser.userType === "venue") && (
+                  <div className="flex justify-between">
+                    <span className="font-medium text-gray-700">Phone</span>
+                    <span className="text-gray-900">{selectedUser.phone}</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between">
                   <span className="font-medium text-gray-700">Joining Date</span>
                   <span className="text-gray-900">{selectedUser.joinedDate}</span>
                 </div>
+
+                <div className="flex justify-between">
+                  <span className="font-medium text-gray-700">User Type</span>
+                  <span className="text-gray-900">
+                    {selectedUser.userType === "clients" 
+                      ? "Clients" 
+                      : selectedUser.userType === "service" 
+                      ? "Service Provider" 
+                      : "Venue Provider"}
+                  </span>
+                </div>
+
+                {(selectedUser.userType === "service" || selectedUser.userType === "venue") && (
+                  <>
+                    <div>
+                      <span className="font-medium text-gray-700 block mb-2">Specializations</span>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedUser.specializations.map((spec, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1 text-sm bg-gray-100 text-[#B74140] rounded"
+                          >
+                            {spec}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <span className="font-medium text-gray-700">License Number</span>
+                      <span className="text-gray-900">{selectedUser.licenseNumber}</span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
             <div className="flex gap-3 p-6 border-t">
               <button
                 onClick={handleCloseModal}
-                className="flex-1 px-4 py-2 text-sm font-medium bg-white border rounded-lg"
+                className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
               >
                 Cancel
               </button>
 
               <button
-                onClick={() => handleBanUser(selectedUser)}
-                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg"
+                onClick={() => {
+                  handleCloseModal()
+                  handleBanUser(selectedUser)
+                }}
+                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-[#B74140] rounded-lg hover:bg-[#a03635]"
               >
-                Block
+                Unblock
               </button>
             </div>
           </div>
@@ -289,7 +395,7 @@ const users = Array.from({ length: 20 }, (_, i) => {
       {/* Block Confirmation Modal */}
       {isConfirmModalOpen && userToBlock && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="w-full max-w-sm p-6 mx-4 text-center bg-white rounded-lg shadow-xl">
+          <div className="w-full max-w-sm p-6 mx-4 text-center bg-white rounded-lg">
             <h2 className="mb-6 text-xl font-semibold text-gray-900">
               Do you want to block this user?
             </h2>

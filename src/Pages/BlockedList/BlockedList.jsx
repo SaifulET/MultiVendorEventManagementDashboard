@@ -103,11 +103,11 @@ const BlockedList = () => {
   return (
     <div className="min-h-screen p-4 bg-gray-50">
       <div
-        style={{ boxShadow: "0px 1px 6px rgba(0,0,0,0.24)" }}
-        className="mx-auto mt-16"
+        
+        className="border border-1 border-gray-200 mx-auto mt-16"
       >
         {/* Header */}
-        <div className="px-6 py-4 mb-6 rounded-tl-lg rounded-tr-lg bg-[#71ABE0]">
+        <div className="px-6 py-4 mb-6 rounded-tl-lg rounded-tr-lg bg-[#B74140]">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-semibold text-white">Blocked List</h1>
 
@@ -136,19 +136,19 @@ const BlockedList = () => {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-xs font-medium text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium text-left text-[#B74140] uppercase">
                     S.ID
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium text-left text-[#B74140] uppercase">
                     Full Name
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium text-left text-[#B74140] uppercase">
                     Email
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium text-left text-[#B74140] uppercase">
                     Joined Date
                   </th>
-                  <th className="px-6 py-3 text-xs font-medium text-left text-[#71ABE0] uppercase">
+                  <th className="px-6 py-3 text-xs font-medium text-left text-[#B74140] uppercase">
                     Action
                   </th>
                 </tr>
@@ -183,7 +183,7 @@ const BlockedList = () => {
                         {/* UNBLOCK BUTTON */}
                         <button
                           onClick={() => handleBanUser(user)}
-                          className="p-1 text-[#71ABE0] rounded-full hover:bg-red-50"
+                          className="p-1 text-[#B74140] rounded-full hover:bg-red-50"
                         >
                           <VscDebugRestart className="w-4 h-4" />
                         </button>
@@ -191,7 +191,7 @@ const BlockedList = () => {
                         {/* VIEW BUTTON */}
                         <button
                           onClick={() => handleViewUser(user)}
-                          className="p-1 text-[#71ABE0] rounded-full hover:bg-blue-50"
+                          className="p-1 text-[#B74140] rounded-full hover:bg-blue-50"
                         >
                           <Eye className="w-4 h-4" />
                         </button>
@@ -228,7 +228,7 @@ const BlockedList = () => {
                   disabled={page === "..."}
                   className={`min-w-[32px] px-3 py-1 text-sm rounded-lg ${
                     page === currentPage
-                      ? "bg-[#71ABE0] text-white"
+                      ? "bg-[#B74140] text-white"
                       : page === "..."
                       ? "text-gray-400 cursor-default"
                       : "text-gray-700 hover:bg-gray-100"
@@ -257,7 +257,7 @@ const BlockedList = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md mx-4 bg-white rounded-lg shadow-xl">
             <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="flex-1 text-2xl font-semibold text-center text-[#71ABE0]">
+              <h2 className="flex-1 text-2xl font-semibold text-center text-[#B74140]">
                 User Details
               </h2>
 
@@ -269,7 +269,7 @@ const BlockedList = () => {
             <div className="p-6">
               <div className="flex items-center mb-6">
                 <img src={selectedUser.avatar} className="w-16 h-16 mr-4 rounded-full" />
-                <h3 className="text-xl font-medium text-[#71ABE0]">
+                <h3 className="text-xl font-medium text-[#B74140]">
                   {selectedUser.name}
                 </h3>
               </div>
@@ -316,7 +316,7 @@ const BlockedList = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md mx-4 bg-white rounded-lg shadow-xl">
             <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="flex-1 text-2xl font-semibold text-center text-[#71ABE0]">
+              <h2 className="flex-1 text-2xl font-semibold text-center text-[#B74140]">
                 Unblock User
               </h2>
 
@@ -328,7 +328,7 @@ const BlockedList = () => {
             <div className="p-6">
               <div className="flex items-center mb-6">
                 <img src={userToBlock.avatar} className="w-16 h-16 mr-4 rounded-full" />
-                <h3 className="text-xl font-medium text-[#71ABE0]">
+                <h3 className="text-xl font-medium text-[#B74140]">
                   {userToBlock.name}
                 </h3>
               </div>
@@ -361,7 +361,7 @@ const BlockedList = () => {
 
               <button
                 onClick={handleConfirmBlock}
-                className="flex-1 px-4 py-2 text-white bg-[#71ABE0] rounded-lg"
+                className="flex-1 px-4 py-2 text-white bg-[#B74140] rounded-lg"
               >
                 Yes, Unblock
               </button>
