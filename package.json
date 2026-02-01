@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "npx update-browserslist-db@latest"
+
   },
   "dependencies": {
     "antd": "^5.25.1",
