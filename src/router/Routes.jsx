@@ -25,15 +25,16 @@ import BlockedList from "../Pages/BlockedList/BlockedList";
 import ChangePass from "../Pages/AdminProfile/ChangePass";
 import AdsSetup from "../Pages/AdsSetup/AdsSetup";
 import ActivityEvents from "../Pages/Activity & Events/ActivityEvents";
-import VenueListingApproval from "../Pages/Venue & Service/VenueListingApproval";
+import VenueListingApproval from "../Pages/Venue_Service/VenueListingApproval";
 import VenueApproval from "../Components/VenueandService/VenueDetails";
-import Veneudetails from "../Pages/Venue & Service/veneudetails";
+
 import OurMission from "../Pages/Settings/OurMission/OurMissioin";
 import OurVision from "../Pages/Settings/OurVision/OurVision";
 import SettingsForgotPassword from "../Pages/Settings/ForgetPassword/ForgetPassword";
 import SettingsEmailVerification from "../Pages/Settings/OTP/EmailVerification";
 import AdminManagementPage from "../Pages/Admin/Admin";
 import CreateAdmin from "../Pages/CreateAdmin/CreateAdmin";
+import Veneudetails from "../Pages/Venue_Service/Veneudetails";
 export const router = createBrowserRouter([
   {
     path: "/sign-in",
