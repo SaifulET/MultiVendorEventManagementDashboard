@@ -4,17 +4,14 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { Bell, MessageSquareMore } from "lucide-react";
 import adminImage from "../../assets/image/adminkickclick.jpg";
+import useAuthStore from "../../store/useAuthStore";
 
 const Header = ({ showDrawer }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationsCount] = useState(5);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const adminProfile = {
-    name: "James",
-    role: "admin",
-  };
+  const user = useAuthStore((state) => state.user);
 
   const notifications = [
     { message: "A new user joined your app.", time: "Fri, 12:30pm" },
@@ -39,7 +36,7 @@ const Header = ({ showDrawer }) => {
           />
           <div>
             <h2 className="font-semibold text-gray-800 text-md">
-              Welcome, {adminProfile.name}
+              Welcome, {user?.fullName || "Admin"}
             </h2>
             <p className="text-sm text-gray-500">Have a nice day!</p>
           </div>

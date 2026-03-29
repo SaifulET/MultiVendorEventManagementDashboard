@@ -1,25 +1,35 @@
-import { Checkbox, Form, Input, Typography } from "antd";
+import { Checkbox, Form, Input, Typography, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import brandlogo from "../../../assets/image/logo.svg";
+import useAuthStore from "../../../store/useAuthStore";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [showpassword, setShowpassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const login = useAuthStore((state) => state.login);
+  const accessToken = useAuthStore((state) => state.accessToken);
+  const loading = useAuthStore((state) => state.isLoading);
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/", { replace: true });
+    }
+  }, [accessToken, navigate]);
 
   const togglePasswordVisibility = () => {
-    setShowpassword(!showpassword)
+    setShowpassword(!showpassword);
   };
 
-  const onFinish = () => {
-    setLoading(true);
-    // Simulating login without actual API call
-    setTimeout(() => {
-      setLoading(false);
-      navigate("/");
-    }, 1500);
+  const onFinish = async (values) => {
+    try {
+      const result = await login(values);
+      message.success(result.message || "Login successful");
+      navigate("/", { replace: true });
+    } catch (error) {
+      message.error(error.message || "Unable to sign in");
+    }
   };
 
   return (
@@ -42,23 +52,33 @@ const SignIn = () => {
                   Please enter your email and password to continue
                 </Typography.Text>
               </div>
-              <Form.Item name="email" label={<p className=" text-md">Email</p>}>
+              <Form.Item
+                name="email"
+                label={<p className=" text-md">Email</p>}
+                rules={[
+                  { required: true, message: "Please enter your email" },
+                  { type: "email", message: "Please enter a valid email" },
+                ]}
+              >
                 <Input
-                  // required
                   className=" text-md"
                   placeholder="Your Email"
+                  autoComplete="email"
                 />
               </Form.Item>
               <Form.Item
                 name="password"
                 label={<p className=" text-md">Password</p>}
+                rules={[
+                  { required: true, message: "Please enter your password" },
+                ]}
               >
                 <div className="relative flex items-center justify-center">
                   <Input
-                    // required
                     className=" text-md"
-                    type={showpassword ? "password" : "text"}
+                    type={showpassword ? "text" : "password"}
                     placeholder="Password"
+                    autoComplete="current-password"
                   />
                   <div className="absolute right-0 flex justify-center px-3">
                     <button onClick={togglePasswordVisibility} type="button">
@@ -89,7 +109,7 @@ const SignIn = () => {
                   type="submit"
                   disabled={loading}
                 >
-                  Sign in
+                  {loading ? "Signing in..." : "Sign in"}
                 </button>
               </Form.Item>
             </Form>
