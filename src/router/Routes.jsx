@@ -35,6 +35,7 @@ import SettingsEmailVerification from "../Pages/Settings/OTP/EmailVerification";
 import AdminManagementPage from "../Pages/Admin/Admin";
 import CreateAdmin from "../Pages/CreateAdmin/CreateAdmin";
 import Veneudetails from "../Pages/Venue_Service/Veneudetails";
+import Servicedetails from "../Pages/Venue_Service/Servicedetails";
 export const router = createBrowserRouter([
   {
     path: "/sign-in",
@@ -87,6 +88,7 @@ export const router = createBrowserRouter([
           { path: "/CreateAdmin", element: <CreateAdmin /> },
           { path: "/venueandservice", element: <VenueListingApproval /> },
           { path: "/venueandservice/venuedetails/:id", element: <Veneudetails/> },
+          { path: "/venueandservice/servicedetails/:id", element: <Servicedetails /> },
         ],
       },
     ],

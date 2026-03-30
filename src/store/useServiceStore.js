@@ -2,8 +2,8 @@ import { create } from "zustand";
 import { API_BASE_URL } from "../config/api";
 import useAuthStore from "./useAuthStore";
 
-const useVenueStore = create((set) => ({
-  venues: [],
+const useServiceStore = create((set) => ({
+  services: [],
   meta: {
     page: 0,
     limit: 5,
@@ -14,12 +14,12 @@ const useVenueStore = create((set) => ({
   },
   isLoading: false,
   error: null,
-  fetchVenues: async ({ page = 1, limit = 5 } = {}) => {
+  fetchServices: async ({ page = 1, limit = 5 } = {}) => {
     const accessToken = useAuthStore.getState().accessToken;
 
     if (!accessToken) {
       set({
-        venues: [],
+        services: [],
         error: "You need to sign in first.",
         isLoading: false,
       });
@@ -33,10 +33,11 @@ const useVenueStore = create((set) => ({
         page: String(page),
         limit: String(limit),
       });
-      const requestUrl = `${API_BASE_URL}/api/v1/admin/venues?${query}`;
+      const requestUrl = `${API_BASE_URL}/api/v1/admin/services?${query}`;
       const bearerToken = `Bearer ${accessToken}`;
 
-    
+      console.log("[fetchServices] Request URL:", requestUrl);
+      console.log("[fetchServices] Authorization header:", bearerToken);
 
       const response = await fetch(requestUrl, {
         headers: {
@@ -45,15 +46,16 @@ const useVenueStore = create((set) => ({
       });
 
       const result = await response.json();
-console.log("Venue fetch result:", result);
-    
+
+      console.log("[fetchServices] Response status:", response.status);
+      console.log("[fetchServices] Response payload:", result);
 
       if (!response.ok || !result?.success) {
-        throw new Error(result?.message || "Failed to load venues.");
+        throw new Error(result?.message || "Failed to load services.");
       }
 
       set({
-        venues: Array.isArray(result?.data) ? result.data : [],
+        services: Array.isArray(result?.data) ? result.data : [],
         meta: {
           page: result?.meta?.page ?? page,
           limit: result?.meta?.limit ?? limit,
@@ -66,14 +68,14 @@ console.log("Venue fetch result:", result);
         error: null,
       });
     } catch (error) {
-     
+      console.error("[fetchServices] Request failed:", error);
       set({
-        venues: [],
+        services: [],
         isLoading: false,
-        error: error.message || "Failed to load venues.",
+        error: error.message || "Failed to load services.",
       });
     }
   },
 }));
 
-export default useVenueStore;
+export default useServiceStore;

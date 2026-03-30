@@ -2,69 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Eye, AlertTriangle, Clock, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import useVenueStore from "../../store/useVenueStore";
-
-const serviceData = [
-  {
-    id: 1,
-    providerName: "Gourmet Catering Co",
-    email: "info@gourmetcatering.com",
-    date: "Dec 27, 2024",
-    time: "12:00 PM - 10:00 PM",
-    serviceName: "Premium Catering Package",
-    serviceType: "Catering Service",
-    status: "approved",
-  },
-  {
-    id: 2,
-    providerName: "Elite Photography",
-    email: "bookings@elitephoto.com",
-    date: "Dec 29, 2024",
-    time: "3:00 PM - 9:00 PM",
-    serviceName: "Wedding Photography",
-    serviceType: "Photography",
-    status: "pending",
-  },
-  {
-    id: 3,
-    providerName: "Sound Masters",
-    email: "contact@soundmasters.io",
-    date: "Jan 3, 2025",
-    time: "6:00 PM - 11:00 PM",
-    serviceName: "Audio & Lighting Setup",
-    serviceType: "AV Services",
-    status: "changes",
-  },
-  {
-    id: 4,
-    providerName: "Floral Elegance",
-    email: "orders@floralelegance.com",
-    date: "Jan 6, 2025",
-    time: "8:00 AM - 2:00 PM",
-    serviceName: "Floral Decoration",
-    serviceType: "Decoration",
-    status: "pending",
-  },
-  {
-    id: 5,
-    providerName: "Dream Events Planners",
-    email: "hello@dreamevents.com",
-    date: "Jan 10, 2025",
-    time: "9:00 AM - 6:00 PM",
-    serviceName: "Full Event Management",
-    serviceType: "Event Planning",
-    status: "approved",
-  },
-  ...Array.from({ length: 245 }, (_, i) => ({
-    id: i + 6,
-    providerName: `Service Provider ${i + 6}`,
-    email: `service${i + 6}@email.com`,
-    date: `Jan ${15 + (i % 15)}, 2025`,
-    time: "9:00 AM - 5:00 PM",
-    serviceName: `Service ${i + 6}`,
-    serviceType: ["Catering", "Photography", "DJ Services", "Decoration"][i % 4],
-    status: ["pending", "approved", "changes"][i % 3],
-  })),
-];
+import useServiceStore from "../../store/useServiceStore";
 
 const formatDate = (value) => {
   if (!value) {
@@ -95,6 +33,18 @@ const getInitials = (name) => {
     .join("")
     .slice(0, 2)
     .toUpperCase();
+};
+
+const normalizeVenueStatus = (status) => {
+  if (status === "published") {
+    return "approved";
+  }
+
+  if (status === "declined") {
+    return "rejected";
+  }
+
+  return status || "pending";
 };
 
 const mapVenueRow = (venue) => {
@@ -148,7 +98,61 @@ const mapVenueRow = (venue) => {
     time,
     venueName,
     eventType,
-    status: venue?.publishStatus || "pending",
+    status: normalizeVenueStatus(venue?.publishStatus),
+  };
+};
+
+const mapServiceRow = (service) => {
+  const information = service?.information || {};
+  const settings = service?.settings || {};
+  const owner = service?.ownerId && typeof service.ownerId === "object" ? service.ownerId : {};
+
+  const providerName =
+    owner?.fullName ||
+    owner?.name ||
+    information?.ownerName ||
+    information?.providerName ||
+    "Unknown Provider";
+
+  const email =
+    owner?.email ||
+    information?.email ||
+    information?.providerEmail ||
+    "No email provided";
+
+  const time =
+    information?.serviceTime ||
+    information?.time ||
+    settings?.bookingWindow ||
+    "Time unavailable";
+
+  const serviceName =
+    information?.serviceName ||
+    information?.name ||
+    information?.title ||
+    "Unnamed Service";
+
+  const serviceType =
+    information?.serviceType ||
+    information?.category ||
+    settings?.category ||
+    settings?.serviceMode ||
+    "Type unavailable";
+
+  return {
+    id: service?._id,
+    providerName,
+    email,
+    date: formatDate(
+      information?.serviceDate ||
+        information?.availableDate ||
+        service?.createdAt ||
+        service?.updatedAt
+    ),
+    time,
+    serviceName,
+    serviceType,
+    status: normalizeVenueStatus(service?.publishStatus),
   };
 };
 
@@ -167,6 +171,14 @@ const getStatusConfig = (status) => {
         text: "text-[#166534]",
         icon: CheckCircle,
         label: "Approved",
+      };
+    case "rejected":
+    case "declined":
+      return {
+        bg: "bg-[#FEE2E2]",
+        text: "text-[#991B1B]",
+        icon: AlertTriangle,
+        label: "Rejected",
       };
     case "changes":
     case "changes_required":
@@ -192,36 +204,39 @@ const VenueListingApproval = () => {
   const itemsPerPage = 5;
 
   const venues = useVenueStore((state) => state.venues);
-  const meta = useVenueStore((state) => state.meta);
-  const isLoading = useVenueStore((state) => state.isLoading);
-  const error = useVenueStore((state) => state.error);
+  const venueMeta = useVenueStore((state) => state.meta);
+  const isVenueLoading = useVenueStore((state) => state.isLoading);
+  const venueError = useVenueStore((state) => state.error);
   const fetchVenues = useVenueStore((state) => state.fetchVenues);
+  const services = useServiceStore((state) => state.services);
+  const serviceMeta = useServiceStore((state) => state.meta);
+  const isServiceLoading = useServiceStore((state) => state.isLoading);
+  const serviceError = useServiceStore((state) => state.error);
+  const fetchServices = useServiceStore((state) => state.fetchServices);
 
   useEffect(() => {
     if (activeTab === "venue") {
-      fetchVenues({ page: currentPage - 1, limit: itemsPerPage });
+      fetchVenues({ page: currentPage , limit: itemsPerPage });
+      return;
     }
-  }, [activeTab, currentPage, fetchVenues]);
+
+    fetchServices({ page: currentPage, limit: itemsPerPage });
+  }, [activeTab, currentPage, fetchServices, fetchVenues]);
 
   const mappedVenueData = useMemo(() => venues.map(mapVenueRow), [venues]);
+  const mappedServiceData = useMemo(() => services.map(mapServiceRow), [services]);
+  const currentMeta = activeTab === "venue" ? venueMeta : serviceMeta;
+  const isLoading = activeTab === "venue" ? isVenueLoading : isServiceLoading;
+  const error = activeTab === "venue" ? venueError : serviceError;
 
-  const currentData = activeTab === "venue" ? mappedVenueData : serviceData;
+  const currentData = activeTab === "venue" ? mappedVenueData : mappedServiceData;
   const totalPages =
-    activeTab === "venue"
-      ? Math.max(meta?.totalPages || 1, 1)
-      : Math.max(Math.ceil(currentData.length / itemsPerPage), 1);
+    Math.max(currentMeta?.totalPages || 1, 1);
   const startIndex =
-    activeTab === "venue"
-      ? (meta?.page || 0) * (meta?.limit || itemsPerPage)
-      : (currentPage - 1) * itemsPerPage;
+    (currentMeta?.page || 0) * (currentMeta?.limit || itemsPerPage);
   const endIndex =
-    activeTab === "venue"
-      ? startIndex + currentData.length
-      : startIndex + itemsPerPage;
-  const displayData =
-    activeTab === "venue"
-      ? currentData
-      : currentData.slice(startIndex, endIndex);
+    startIndex + currentData.length;
+  const displayData = currentData;
 
   const generatePageNumbers = () => {
     const pages = [];
@@ -264,7 +279,7 @@ const VenueListingApproval = () => {
     setCurrentPage(1);
   };
 
-  const totalItems = activeTab === "venue" ? meta?.total || 0 : currentData.length;
+  const totalItems = currentMeta?.total || 0;
 
   return (
     <div className="min-h-screen mt-[96px] ">
@@ -321,15 +336,15 @@ const VenueListingApproval = () => {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                {activeTab === "venue" && isLoading && (
+                {isLoading && (
                   <tr>
                     <td colSpan="5" className="px-4 py-10 text-center text-gray-500">
-                      Loading venues...
+                      {activeTab === "venue" ? "Loading venues..." : "Loading services..."}
                     </td>
                   </tr>
                 )}
 
-                {activeTab === "venue" && !isLoading && error && (
+                {!isLoading && error && (
                   <tr>
                     <td colSpan="5" className="px-4 py-10 text-center text-red-500">
                       {error}
@@ -396,7 +411,13 @@ const VenueListingApproval = () => {
                           </div>
                         </td>
                         <td className="px-4 py-5">
-                          <Link to={`/venueandservice/venuedetails/${item.id}`}>
+                          <Link
+                            to={
+                              activeTab === "venue"
+                                ? `/venueandservice/venuedetails/${item.id}`
+                                : `/venueandservice/servicedetails/${item.id}`
+                            }
+                          >
                             <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 text-sm font-medium hover:bg-gray-50 hover:border-gray-400 transition-all">
                               <Eye size={16} />
                               View Details

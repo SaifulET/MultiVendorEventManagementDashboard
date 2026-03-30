@@ -3,7 +3,7 @@ import VenueApproval from '../../Components/VenueandService/VenueDetails'
 
 function Veneudetails() {
   return (
-    <div><VenueApproval/></div>
+    <div><VenueApproval entityType="venue" /></div>
   )
 }
 
