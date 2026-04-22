@@ -1,74 +1,98 @@
-import { useState } from "react"
-import { Eye, Ban, X } from "lucide-react"
+import { useEffect, useState } from "react";
+import { Ban, Eye, X } from "lucide-react";
+import useAdminAnalyticsStore from "../../store/useAdminAnalyticsStore";
+import useAdminUserStore from "../../store/useAdminUserStore";
+
+const getInitials = (name) => {
+  if (!name) {
+    return "NA";
+  }
+
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+};
 
 const RecentUsersTable = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState(null)
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
-  const [userToBlock, setUserToBlock] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [userToBlock, setUserToBlock] = useState(null);
+  const [actionError, setActionError] = useState("");
+  const [isActionLoading, setIsActionLoading] = useState(false);
 
-  //========================== Random name list==========================
-  const randomNames = [
-    "John Carter", "Sophia Adams", "Liam Wilson", "Emma Johnson",
-    "Noah Walker", "Olivia Brown", "Mason Davis", "Ava Martinez",
-    "James Miller", "Amelia Taylor", "Benjamin Moore", "Mia Anderson",
-    "Lucas Thomas", "Charlotte Lee", "Henry White", "Isabella Harris",
-    "Logan Hall", "Evelyn Scott", "Alexander Young", "Grace King"
-  ]
+  const recentUsers = useAdminAnalyticsStore((state) => state.recentUsers);
+  const isLoading = useAdminAnalyticsStore((state) => state.isRecentUsersLoading);
+  const error = useAdminAnalyticsStore((state) => state.recentUsersError);
+  const fetchRecentUsers = useAdminAnalyticsStore((state) => state.fetchRecentUsers);
+  const updateUserStatus = useAdminUserStore((state) => state.updateUserStatus);
 
-  // ==========================Generate random users==========================
-  const users = Array.from({ length: 20 }, (_, i) => {
-    const name = randomNames[Math.floor(Math.random() * randomNames.length)]
-
-    return {
-      id: i + 1,
-      name,
-      email: `${name.toLowerCase().replace(/ /g, "")}${i + 1}@gmail.com`,
-      joinedDate: "02-24-2024",
-      avatar:
-        "https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000",
-    }
-  })
-
-  const displayedUsers = users.slice(0, 5)
+  useEffect(() => {
+    fetchRecentUsers();
+  }, [fetchRecentUsers]);
 
   const handleViewUser = (user) => {
-    setSelectedUser(user)
-    setIsModalOpen(true)
-  }
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedUser(null)
-  }
+    setIsModalOpen(false);
+    setSelectedUser(null);
+  };
 
   const handleBanUser = (user) => {
-    setUserToBlock(user)
-    setIsConfirmModalOpen(true)
-  }
+    setActionError("");
+    setUserToBlock(user);
+    setIsConfirmModalOpen(true);
+  };
 
-  const handleConfirmBlock = () => {
-    console.log("Blocking user:", userToBlock)
-    setIsConfirmModalOpen(false)
-    setUserToBlock(null)
-  }
+  const handleConfirmBlock = async () => {
+    if (!userToBlock?.id || !userToBlock?.userType) {
+      setActionError("This user role is not supported for blocking.");
+      return;
+    }
+
+    setActionError("");
+    setIsActionLoading(true);
+
+    try {
+      await updateUserStatus({
+        userType: userToBlock.userType,
+        userId: userToBlock.id,
+        action: "block",
+      });
+
+      setIsConfirmModalOpen(false);
+      setUserToBlock(null);
+      handleCloseModal();
+      await fetchRecentUsers();
+    } catch (statusError) {
+      setActionError(statusError.message || "Failed to block user.");
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
 
   const handleCancelBlock = () => {
-    setIsConfirmModalOpen(false)
-    setUserToBlock(null)
-  }
+    setIsConfirmModalOpen(false);
+    setUserToBlock(null);
+    setActionError("");
+  };
 
   return (
     <div className=" my-[30px] bg-gray-50">
-      <div className="rounded border border-1 border-gray-200" >
-        {/*============================= Header============================= */}
+      <div className="rounded border border-1 border-gray-200">
         <div className="px-6 py-4 mb-6 rounded-tl-lg rounded-tr-lg">
           <h1 className="text-2xl font-semibold">Recent Users</h1>
         </div>
 
-        {/* =============================Table =============================*/}
-        <div className="bg-white rounded-lg ">
-          <div >
+        <div className="bg-white rounded-lg">
+          <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-[#B74140]">
                 <tr>
@@ -91,45 +115,89 @@ const RecentUsersTable = () => {
               </thead>
 
               <tbody className="bg-white divide-y divide-gray-200">
-                {displayedUsers.map((user, index) => (
-                  <tr key={user.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
-                      {String(index + 1).padStart(2, "0")}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <img src={user.avatar} className="w-8 h-8 rounded-full" />
-                        <span className="ml-3 text-sm font-medium text-gray-900">{user.name}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{user.email}</td>
-                    <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{user.joinedDate}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleBanUser(user)}
-                          className="p-1 text-red-500 rounded-full hover:bg-red-50"
-                        >
-                          <Ban className="w-4 h-4" />
-                        </button>
-
-                        <button
-                          onClick={() => handleViewUser(user)}
-                          className="flex items-center gap-1 p-1 text-[#71ABE0] rounded-full hover:bg-blue-50"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </button>
-                      </div>
+                {isLoading && (
+                  <tr>
+                    <td colSpan="5" className="px-6 py-10 text-center text-gray-500">
+                      Loading recent users...
                     </td>
                   </tr>
-                ))}
+                )}
+
+                {!isLoading && error && (
+                  <tr>
+                    <td colSpan="5" className="px-6 py-10 text-center text-red-500">
+                      {error}
+                    </td>
+                  </tr>
+                )}
+
+                {!isLoading && !error && recentUsers.length === 0 && (
+                  <tr>
+                    <td colSpan="5" className="px-6 py-10 text-center text-gray-500">
+                      No recent users found.
+                    </td>
+                  </tr>
+                )}
+
+                {!isLoading &&
+                  !error &&
+                  recentUsers.map((user, index) => (
+                    <tr key={user.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                        {String(index + 1).padStart(2, "0")}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          {user.avatar ? (
+                            <img
+                              src={user.avatar}
+                              alt={user.name}
+                              className="object-cover w-8 h-8 rounded-full"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-[#F3D7D7] text-[#B74140] flex items-center justify-center text-xs font-semibold">
+                              {getInitials(user.name)}
+                            </div>
+                          )}
+                          <span className="ml-3 text-sm font-medium text-gray-900">
+                            {user.name}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                        {user.email}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">
+                        {user.joinedDate}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleBanUser(user)}
+                            disabled={!user.userType || user.isBlocked}
+                            className="p-1 text-red-500 rounded-full hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40"
+                          >
+                            <Ban className="w-4 h-4" />
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleViewUser(user)}
+                            className="flex items-center gap-1 p-1 text-[#B74140] rounded-full hover:bg-blue-50"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
         </div>
       </div>
 
-      {/* =========================View User Modal========================= */}
       {isModalOpen && selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-md mx-4 bg-white rounded-lg shadow-xl">
@@ -144,22 +212,42 @@ const RecentUsersTable = () => {
 
             <div className="p-6">
               <div className="flex items-center mb-6">
-                <img src={selectedUser.avatar} className="w-16 h-16 mr-4 rounded-full" />
+                {selectedUser.avatar ? (
+                  <img
+                    src={selectedUser.avatar}
+                    alt={selectedUser.name}
+                    className="object-cover w-16 h-16 mr-4 rounded-full"
+                  />
+                ) : (
+                  <div className="w-16 h-16 mr-4 rounded-full bg-[#F3D7D7] text-[#B74140] flex items-center justify-center text-xl font-semibold">
+                    {getInitials(selectedUser.name)}
+                  </div>
+                )}
                 <h3 className="text-xl font-medium text-[#B74140]">{selectedUser.name}</h3>
               </div>
 
               <div className="space-y-4">
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-4">
                   <span className="font-medium text-gray-700">Name</span>
-                  <span className="text-gray-900">{selectedUser.name}</span>
+                  <span className="text-right text-gray-900 break-all">{selectedUser.name}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-4">
                   <span className="font-medium text-gray-700">Email</span>
-                  <span className="text-gray-900">{selectedUser.email}</span>
+                  <span className="text-right text-gray-900 break-all">{selectedUser.email}</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-4">
                   <span className="font-medium text-gray-700">Joining Date</span>
-                  <span className="text-gray-900">{selectedUser.joinedDate}</span>
+                  <span className="text-right text-gray-900">{selectedUser.joinedDate}</span>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <span className="font-medium text-gray-700">Role</span>
+                  <span className="text-right text-gray-900">{selectedUser.roleLabel}</span>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <span className="font-medium text-gray-700">Account Status</span>
+                  <span className="text-right text-gray-900">
+                    {selectedUser.isBlocked ? "Blocked" : "Active"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -174,7 +262,8 @@ const RecentUsersTable = () => {
 
               <button
                 onClick={() => handleBanUser(selectedUser)}
-                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg"
+                disabled={!selectedUser.userType || selectedUser.isBlocked}
+                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Block
               </button>
@@ -183,34 +272,38 @@ const RecentUsersTable = () => {
         </div>
       )}
 
-      {/*================================= Block Confirmation Modal================================= */}
       {isConfirmModalOpen && userToBlock && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="w-full max-w-sm p-6 mx-4 text-center bg-white rounded-lg shadow-xl">
-            <h2 className="mb-6 text-xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-xl font-semibold text-gray-900">
               Do you want to block this user?
             </h2>
+
+            <p className="mb-4 text-sm text-gray-600">{userToBlock.name}</p>
+            {actionError && <p className="mb-4 text-sm text-red-500">{actionError}</p>}
 
             <div className="flex gap-3">
               <button
                 onClick={handleCancelBlock}
-                className="flex-1 px-4 py-2 text-sm bg-white border rounded-lg"
+                disabled={isActionLoading}
+                className="flex-1 px-4 py-2 text-sm bg-white border rounded-lg disabled:opacity-50"
               >
                 Cancel
               </button>
 
               <button
                 onClick={handleConfirmBlock}
-                className="flex-1 px-4 py-2 text-sm text-white bg-red-600 rounded-lg"
+                disabled={isActionLoading}
+                className="flex-1 px-4 py-2 text-sm text-white bg-[#B74140] rounded-lg disabled:opacity-50"
               >
-                Yes, Confirm
+                {isActionLoading ? "Blocking..." : "Yes, Confirm"}
               </button>
             </div>
           </div>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default RecentUsersTable
+export default RecentUsersTable;

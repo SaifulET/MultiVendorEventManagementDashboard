@@ -1,26 +1,11 @@
-import React, { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { Bell, MessageSquareMore } from "lucide-react";
 import adminImage from "../../assets/image/adminkickclick.jpg";
 import useAuthStore from "../../store/useAuthStore";
 
 const Header = ({ showDrawer }) => {
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [notificationsCount] = useState(5);
-  const navigate = useNavigate();
-  const location = useLocation();
   const user = useAuthStore((state) => state.user);
-
-  const notifications = [
-    { message: "A new user joined your app.", time: "Fri, 12:30pm" },
-    { message: "Profile report received.", time: "Fri, 12:30pm" },
-    { message: "A new verification request.", time: "Fri, 12:30pm" },
-    { message: "New comment on your post.", time: "Fri, 12:30pm" },
-  ];
-
-  const isMessagesActive = location.pathname === "/messages";
 
   return (
     <div className="relative mt-2">
@@ -44,27 +29,6 @@ const Header = ({ showDrawer }) => {
 
         {/* =============================Right Section============================= */}
         <div className="flex items-center gap-4">
-          {/* Message Icon */}
-          <Link
-            to="/messages"
-            className={`relative p-2 transition border rounded-full hover:bg-[#B74140] ${
-              isMessagesActive ? "bg-[#B74140] text-white border-[#B74140]" : "text-[#B74140] border-[#B74140]"
-            }`}
-          >
-            <MessageSquareMore />
-          </Link>
-
-          {/* Notification Icon */}
-          <button
-            className="relative p-2 text-[#B74140] transition border border-[#B74140] rounded-full hover:bg-gray-50"
-            onClick={() => setShowNotifications((prev) => !prev)}
-          >
-            <IoMdNotificationsOutline className="text-xl" />
-            {notificationsCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 bg-red-500 h-3 w-3 rounded-full border border-white"></span>
-            )}
-          </button>
-
           {/* Profile Icon */}
           <Link to="/settings/profile" >
           <div className="p-2 text-blue-700 transition border border-[#B74140] rounded-full hover:bg-blue-50">
@@ -77,41 +41,6 @@ const Header = ({ showDrawer }) => {
           </Link>
         </div>
       </div>
-
-      {/* Notification Dropdown */}
-      {showNotifications && (
-        <div className="absolute right-4 top-[72px] z-50 p-4 bg-white rounded-md shadow-xl w-80">
-          <h2 className="text-lg font-semibold text-center border-b pb-2 text-[#2c3e50]">
-            Notifications
-          </h2>
-
-          <div className="mt-4 space-y-4">
-            {notifications.map((item, index) => (
-              <div key={index} className="flex items-start gap-3">
-                <div className="bg-[#f1f5f9] p-2 rounded-md">
-                  <Bell className="text-[#B74140]" size={20} />
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#1e293b]">
-                    {item.message}
-                  </p>
-                  <p className="text-xs text-gray-500">{item.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <button
-            onClick={() => {
-              setShowNotifications(false);
-              navigate("/notifications");
-            }}
-            className="mt-6 w-full bg-[#B74140] text-white py-2 rounded-md hover:bg-[#c25251] transition duration-200"
-          >
-            Load More
-          </button>
-        </div>
-      )}
     </div>
   );
 };

@@ -1,20 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-
-const userData = [
-  { month: "Jan", users: 650 },
-  { month: "Feb", users: 380 },
-  { month: "Mar", users: 780 },
-  { month: "Apr", users: 520 },
-  { month: "May", users: 420 },
-  { month: "June", users: 850 },
-  { month: "July", users: 580 },
-  { month: "Aug", users: 620 },
-  { month: "Sep", users: 750 },
-  { month: "Oct", users: 680 },
-  { month: "Nov", users: 540 },
-  { month: "Dec", users: 720 },
-];
+import useAdminAnalyticsStore from "../../store/useAdminAnalyticsStore";
 
 const CustomTooltip = ({ active, payload}) => {
   if (active && payload && payload.length) {
@@ -30,6 +16,19 @@ const CustomTooltip = ({ active, payload}) => {
 const UserRatioChart = () => {
   const [selectedYear, setSelectedYear] = useState("2024");
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const monthlyUsers = useAdminAnalyticsStore((state) => state.monthlyUsers);
+  const fetchYearly = useAdminAnalyticsStore((state) => state.fetchYearly);
+
+  useEffect(() => {
+    fetchYearly(selectedYear);
+  }, [fetchYearly, selectedYear]);
+
+  const yearOptions = useMemo(() => {
+    const currentYear = new Date().getFullYear();
+    return [currentYear, currentYear - 1, currentYear - 2, 2024]
+      .filter((year, index, years) => years.indexOf(year) === index)
+      .map(String);
+  }, []);
 
   const handleMouseEnter = (index) => {
     setHoveredIndex(index);
@@ -58,10 +57,11 @@ const UserRatioChart = () => {
             onChange={(e) => setSelectedYear(e.target.value)}
             className="px-4 py-2 text-sm font-medium text-white bg-[#B74140] border-none rounded outline-none cursor-pointer"
           >
-            <option value="2024">Year-2025</option>
-            <option value="2024">Year-2024</option>
-            <option value="2023">Year-2023</option>
-            <option value="2022">Year-2022</option>
+            {yearOptions.map((year) => (
+              <option key={year} value={year}>
+                Year-{year}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -70,7 +70,7 @@ const UserRatioChart = () => {
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            data={userData}
+            data={monthlyUsers}
             margin={{
               top: 20,
               right: 30,
@@ -85,7 +85,7 @@ const UserRatioChart = () => {
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 12, fill: "#666" }}
-              domain={[0, 800]}
+              domain={[0, "dataMax"]}
               tickFormatter={(value) => `${value}.00`}
             />
             <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(59, 130, 246, 0.1)" }} />

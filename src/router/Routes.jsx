@@ -10,17 +10,13 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import ProfilePage from "../Pages/AdminProfile/ProfilePage";
 import VerifyCode from "../Pages/Auth/VerifyCode/VerifyCode";
 import NewPass from "../Pages/Auth/NewPass/NewPass";
-import Notifications from "../Pages/Notifications/Notifications";
 import AnalysisPage from "../Pages/Analysis/AnalysisPage";
 import Subscriptions from "../Pages/Subscriptions/Subscriptions";
 import Analysis from "../Pages/Analysis/Analysis";
 import RestaurantRequest from "../Pages/RestaurantRequest/RestaurantRequest";
 import UserList from "../Pages/UserList/UserList";
-import Earnings from "../Pages/Earnings/Earnings";
 import Categories from "../Pages/Categories/Categories";
-import Reports from "../Pages/Reports/Reports";
 import Settings from "../Pages/Settings/Settings";
-import AllMessages from "../Pages/Messages/AllMessages";
 import BlockedList from "../Pages/BlockedList/BlockedList";
 import ChangePass from "../Pages/AdminProfile/ChangePass";
 import AdsSetup from "../Pages/AdsSetup/AdsSetup";
@@ -31,7 +27,6 @@ import VenueApproval from "../Components/VenueandService/VenueDetails";
 import OurMission from "../Pages/Settings/OurMission/OurMissioin";
 import OurVision from "../Pages/Settings/OurVision/OurVision";
 import SettingsForgotPassword from "../Pages/Settings/ForgetPassword/ForgetPassword";
-import SettingsEmailVerification from "../Pages/Settings/OTP/EmailVerification";
 import AdminManagementPage from "../Pages/Admin/Admin";
 import CreateAdmin from "../Pages/CreateAdmin/CreateAdmin";
 import Veneudetails from "../Pages/Venue_Service/Veneudetails";
@@ -64,27 +59,22 @@ export const router = createBrowserRouter([
           { path: "/dashboard", element: <Dashboard /> },
           { path: "/user-list", element: <UserList /> },
           { path: "/block-list", element: <BlockedList /> },
-          { path: "/earnings", element: <Earnings /> },
           { path: "/restaurant-request", element: <RestaurantRequest /> },
           { path: "/analysis-page", element: <AnalysisPage /> },
           { path: "/analysis/:id", element: <Analysis /> },
           { path: "/subscriptions", element: <Subscriptions /> },
           { path: "/categories", element: <Categories /> },
-          { path: "/reports", element: <Reports /> },
           { path: "/ads-setup", element: <AdsSetup /> },
             { path: "/activity&events", element: <ActivityEvents /> },
-          { path: "/notifications", element: <Notifications /> },
           { path: "/settings", element: <Settings /> },
           { path: "/settings/about-us", element: <AboutUs /> },
           { path: "/settings/privacy-policy", element: <PrivacyPolicy /> },
           { path: "/settings/ourmission", element: <OurMission /> },
           { path: "/settings/forget-password", element: <SettingsForgotPassword /> },
-          { path: "/settings/otp", element: <SettingsEmailVerification /> },
           { path: "/settings/ourvision", element: <OurVision /> },
           { path: "/settings/terms-condition", element: <TermsCondition /> },
           { path: "/settings/profile", element: <ProfilePage /> },
           { path: "/settings/change-password", element: <ChangePass /> },
-          { path: "/messages", element: <AllMessages /> },
           { path: "/CreateAdmin", element: <CreateAdmin /> },
           { path: "/venueandservice", element: <VenueListingApproval /> },
           { path: "/venueandservice/venuedetails/:id", element: <Veneudetails/> },

@@ -4,15 +4,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import brandlogo from "../../assets/image/logo.svg";
 import {
-  AlignCenterVertical,
-  ChartColumnIncreasing,
   Crown,
   Settings,
-  TriangleAlert,
   Users,
 } from "lucide-react";
-import { BsBadgeAd } from "react-icons/bs";
-import { SiActivitypub } from "react-icons/si";
 import { GiMushroomHouse } from "react-icons/gi";
 import useAuthStore from "../../store/useAuthStore";
 
@@ -33,11 +28,6 @@ const Sidebar = () => {
       Link: "/user-list",
     },
     {
-      icon: <ChartColumnIncreasing className="w-5 h-5" />,
-      label: "Earnings",
-      Link: "/earnings",
-    },
-    {
       icon: <Crown className="w-5 h-5" />,
       label: "Subscriptions",
       Link: "/subscriptions",
@@ -53,12 +43,6 @@ const Sidebar = () => {
       Link: "/createAdmin",
     },
 
-   
-    {
-      icon: <TriangleAlert className="w-5 h-5" />,
-      label: "Reports",
-      Link: "/reports",
-    },
     {
       icon: <Settings className="w-5 h-5" />,
       label: "Settings",
