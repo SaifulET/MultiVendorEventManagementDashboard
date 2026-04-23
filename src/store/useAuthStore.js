@@ -46,6 +46,9 @@ const useAuthStore = create(
           isLoading: false,
         });
       },
+      setUser: (user) => {
+        set({ user });
+      },
     }),
     {
       name: "auth-storage",
