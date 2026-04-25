@@ -7,19 +7,11 @@ import {
   updateAdminProfile,
   uploadAdminProfileImage,
 } from "../../lib/adminProfileApi";
-
-const fallbackProfilePic = "/profile.jpg";
-
-const pickProfileImage = (profile) =>
-  profile?.profileImage ||
-  profile?.profileImageUrl ||
-  profile?.imageUrl ||
-  profile?.image ||
-  profile?.url ||
-  profile?.avatar ||
-  profile?.photo ||
-  profile?.profilePicture ||
-  fallbackProfilePic;
+import {
+  DEFAULT_PROFILE_IMAGE,
+  getProfileImageSrc,
+  mergeProfileRecords,
+} from "../../lib/profileImage";
 
 const getProfileFromResult = (result) =>
   result?.data?.user || result?.data?.admin || result?.data || {};
@@ -27,7 +19,7 @@ const getProfileFromResult = (result) =>
 function ProfilePage() {
   const [activeTab, setActiveTab] = useState("profile");
   const [profile, setProfile] = useState(null);
-  const [profilePic, setProfilePic] = useState(fallbackProfilePic);
+  const [profilePic, setProfilePic] = useState(DEFAULT_PROFILE_IMAGE);
   const [isLoading, setIsLoading] = useState(true);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [message, setMessage] = useState("");
@@ -37,7 +29,7 @@ function ProfilePage() {
   const setUser = useAuthStore((state) => state.setUser);
 
   const displayProfile = useMemo(
-    () => profile || storedUser || {},
+    () => mergeProfileRecords(storedUser, profile),
     [profile, storedUser]
   );
 
@@ -55,13 +47,16 @@ function ProfilePage() {
         setIsLoading(true);
         setError("");
         const result = await fetchAdminProfile(accessToken);
-        const nextProfile = getProfileFromResult(result);
+        const nextProfile = mergeProfileRecords(
+          storedUser,
+          getProfileFromResult(result)
+        );
 
         if (!isMounted) return;
 
         setProfile(nextProfile);
         setUser(nextProfile);
-        setProfilePic(pickProfileImage(nextProfile));
+        setProfilePic(getProfileImageSrc(nextProfile));
       } catch (err) {
         if (isMounted) {
           setError(err.message || "Failed to load profile.");
@@ -94,17 +89,14 @@ function ProfilePage() {
     try {
       const result = await uploadAdminProfileImage(accessToken, file);
       const uploadedProfile = getProfileFromResult(result);
-      const nextProfile = {
-        ...displayProfile,
-        ...uploadedProfile,
-      };
+      const nextProfile = mergeProfileRecords(displayProfile, uploadedProfile);
 
       setProfile(nextProfile);
       setUser(nextProfile);
-      setProfilePic(pickProfileImage(nextProfile));
+      setProfilePic(getProfileImageSrc(nextProfile));
       setMessage(result?.message || "Profile image updated successfully.");
     } catch (err) {
-      setProfilePic(pickProfileImage(displayProfile));
+      setProfilePic(getProfileImageSrc(displayProfile));
       setError(err.message || "Failed to upload profile image.");
     } finally {
       URL.revokeObjectURL(previewUrl);
@@ -126,6 +118,10 @@ function ProfilePage() {
               src={profilePic}
               alt="Profile"
               className="object-cover w-32 h-32 bg-gray-100 border-4 border-white rounded-full shadow-lg"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = DEFAULT_PROFILE_IMAGE;
+              }}
             />
             <div className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md">
               <label htmlFor="profilePicUpload" className="cursor-pointer">
@@ -265,10 +261,10 @@ function EditProfileTab({
         fullName: formData.fullName.trim(),
         phoneNumber: formData.phoneNumber.trim(),
       });
-      const updatedProfile = {
-        ...profile,
-        ...getProfileFromResult(result),
-      };
+      const updatedProfile = mergeProfileRecords(
+        profile,
+        getProfileFromResult(result)
+      );
 
       setProfile(updatedProfile);
       setUser(updatedProfile);
