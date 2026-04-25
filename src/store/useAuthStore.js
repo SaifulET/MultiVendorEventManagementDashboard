@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { API_BASE_URL } from "../config/api";
+import { normalizeProfileRecord } from "../lib/profileImage";
 
 const useAuthStore = create(
   persist(
@@ -29,7 +30,7 @@ const useAuthStore = create(
 
           set({
             accessToken,
-            user: result.data.user || null,
+            user: normalizeProfileRecord(result.data.user || null),
             isLoading: false,
           });
 
@@ -47,7 +48,7 @@ const useAuthStore = create(
         });
       },
       setUser: (user) => {
-        set({ user });
+        set({ user: normalizeProfileRecord(user) });
       },
     }),
     {
@@ -57,12 +58,16 @@ const useAuthStore = create(
         const state = persistedState;
 
         if (state?.accessToken) {
-          return state;
+          return {
+            ...state,
+            user: normalizeProfileRecord(state?.user || null),
+          };
         }
 
         return {
           ...state,
           accessToken: state?.token || null,
+          user: normalizeProfileRecord(state?.user || null),
         };
       },
       partialize: (state) => ({

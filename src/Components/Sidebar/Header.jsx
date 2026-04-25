@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { RxHamburgerMenu } from "react-icons/rx";
-import adminImage from "../../assets/image/adminkickclick.jpg";
 import useAuthStore from "../../store/useAuthStore";
+import {
+  DEFAULT_PROFILE_IMAGE,
+  getProfileImageSrc,
+} from "../../lib/profileImage";
 
 const Header = ({ showDrawer }) => {
   const user = useAuthStore((state) => state.user);
+  const profileImage = getProfileImageSrc(user, DEFAULT_PROFILE_IMAGE);
 
   return (
     <div className="relative mt-2">
@@ -33,9 +37,13 @@ const Header = ({ showDrawer }) => {
           <Link to="/settings/profile" >
           <div className="p-2 text-blue-700 transition border border-[#B74140] rounded-full hover:bg-blue-50">
             <img
-              src={adminImage}
+              src={profileImage}
               alt="Admin"
               className="object-cover w-5 h-5 rounded-full"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = DEFAULT_PROFILE_IMAGE;
+              }}
             />
           </div>
           </Link>
